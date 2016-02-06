@@ -48,6 +48,7 @@ ENV APP_DATA="/data" PATH=/opt/SickGear:$PATH
 EXPOSE 8081
 VOLUME /data /tv /incoming
 
+COPY template /template
 COPY entrypoint.sh /
 
 ENTRYPOINT ["/entrypoint.sh"]

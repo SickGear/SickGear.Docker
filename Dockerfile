@@ -1,4 +1,5 @@
 FROM python:2.7-alpine
+MAINTAINER Sami Haahtinen <ressu@ressukka.net>
 
 # grab gosu for easy step-down from root
 RUN apk add --update ca-certificates curl gnupg && \

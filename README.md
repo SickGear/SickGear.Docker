@@ -28,6 +28,8 @@ to match the userid of SickGear
 
 # Updating the image
 
+## Manual updates
+
 This image follows the idea that the container should be ephemeral. This means that the image does not update itself internally. Update procedure is simply shutting down the image, pulling an update image and starting the new image in place of the old one
 
 An example update would be something like:
@@ -35,6 +37,28 @@ An example update would be something like:
 docker kill <container-id>
 docker pull ressu/sickgear
 docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgear-data:/data -p 8081:8081 ressu/sickgear
+```
+
+## Automatic updates with Watchtower
+
+If you want automatic updates, you can use watchtower. Watchtower is a small utility packed inside a container that periodically tries to update containers.
+
+You can use watchtower as follows:
+```
+docker run -d --name watchtower \
+  -v /var/run/docker.sock:/var/run/docker.sock \
+  centurylink/watchtower \
+  sickgear watchtower
+```
+
+The last two parameters define names of the containers you want to watch. By default Docker launches containers under randomized names. If you want to change your SickGear container to a certain name You need to add a `--name <containername>` to the run command. For example:
+```
+docker run \
+  --name sickgear
+  -v /storage/incoming:/incoming \
+  -v /storage/tv:/tv \
+  -v /storage/sickgear-data:/data \
+  -p 8081:8081 ressu/sickgear
 ```
 
 # Volumes

@@ -1,12 +1,9 @@
 # SickGear dockerized
 
-This image aims to be a best practices compliant docker image for SickGear.
-There are no moving parts inside the image and the image can be invoked with
-the `--read-only` flag.
+This image is the development image and contains git.
 
 The image is intentionally kept small and is based on the Alpine variation of
 the Python image.
-[![](https://badge.imagelayers.io/ressu/sickgear:latest.svg)](https://imagelayers.io/?images=ressu/sickgear:latest 'Get your own badge on imagelayers.io')
 
 # Usage
 

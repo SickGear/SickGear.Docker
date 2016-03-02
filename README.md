@@ -6,7 +6,14 @@ the `--read-only` flag.
 
 The image is intentionally kept small and is based on the Alpine variation of
 the Python image.
-[![](https://badge.imagelayers.io/ressu/sickgear:latest.svg)](https://imagelayers.io/?images=ressu/sickgear:latest 'Get your own badge on imagelayers.io')
+
+## develop tag with git
+
+To ease testing and development, there is also a variant of this image that
+includes git. It can be installed by using the image `ressu/sickgear:develop`
+
+The main build is recommended for daily use, but there is the develop option if
+you happen to feel adventurous
 
 # Usage
 

@@ -7,14 +7,6 @@ the `--read-only` flag.
 The image is intentionally kept small and is based on the Alpine variation of
 the Python image.
 
-## develop tag with git
-
-To ease testing and development, there is also a variant of this image that
-includes git. It can be installed by using the image `ressu/sickgear:develop`
-
-The main build is recommended for daily use, but there is the develop option if
-you happen to feel adventurous
-
 # Usage
 
 Since SickGear operates on external data, the `/incoming` and `/tv` volumes
@@ -122,6 +114,14 @@ You can use the TZ environment to adjust the default timezone of the service.
 # Exposed ports
 
 By default SickGear listens on port 8081, this port is exposed from the image.
+
+# Git enabled builds
+
+To ease testing and development, there is also a variant of this image that
+includes git. It can be installed by using the image `ressu/sickgear:develop`
+
+The main build is recommended for daily use, but there is the develop option if
+you happen to feel adventurous
 
 # Examples
 

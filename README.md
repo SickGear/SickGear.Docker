@@ -1,20 +1,11 @@
 # SickGear dockerized
 
-This image is the development image and contains git.
+This image aims to be a best practices compliant docker image for SickGear.
+There are no moving parts inside the image and the image can be invoked with
+the `--read-only` flag.
 
 The image is intentionally kept small and is based on the Alpine variation of
 the Python image.
-<<<<<<< HEAD
-=======
-
-## develop tag with git
-
-To ease testing and development, there is also a variant of this image that
-includes git. It can be installed by using the image `ressu/sickgear:develop`
-
-The main build is recommended for daily use, but there is the develop option if
-you happen to feel adventurous
->>>>>>> master
 
 # Usage
 
@@ -123,6 +114,14 @@ You can use the TZ environment to adjust the default timezone of the service.
 # Exposed ports
 
 By default SickGear listens on port 8081, this port is exposed from the image.
+
+# Git enabled builds
+
+To ease testing and development, there is also a variant of this image that
+includes git. It can be installed by using the image `ressu/sickgear:develop`
+
+The main build is recommended for daily use, but there is the develop option if
+you happen to feel adventurous
 
 # Examples
 

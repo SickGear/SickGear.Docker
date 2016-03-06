@@ -115,13 +115,10 @@ You can use the TZ environment to adjust the default timezone of the service.
 
 By default SickGear listens on port 8081, this port is exposed from the image.
 
-# Git enabled builds
+# The develop image
 
 To ease testing and development, there is also a variant of this image that
 includes git. It can be installed by using the image `ressu/sickgear:develop`
-
-The main build is recommended for daily use, but there is the develop option if
-you happen to feel adventurous
 
 # Examples
 

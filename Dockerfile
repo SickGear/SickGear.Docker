@@ -1,7 +1,7 @@
 FROM python:2.7-alpine
 MAINTAINER Sami Haahtinen <ressu@ressukka.net>
 
-ENV SICKGEAR_VERSION 0.11.15
+ENV SICKGEAR_VERSION 0.11.16
 
 # Download gosu and SickGear.
 RUN apk add --update \

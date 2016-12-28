@@ -23,9 +23,9 @@ if [ "$1" = 'SickBeard.py' ]; then
   cd /opt/SickGear
 
   # update the installation to latest git revision
-  gosu $APP_UID:$APP_GID git pull
+  su-exec $APP_UID:$APP_GID git pull
 
-  gosu $APP_UID:$APP_GID python "$@" --datadir=$APP_DATA &
+  su-exec $APP_UID:$APP_GID python "$@" --datadir=$APP_DATA &
 
   while true; do
     sleep 5

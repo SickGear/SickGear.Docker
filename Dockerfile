@@ -1,10 +1,10 @@
 FROM python:2.7-alpine
 MAINTAINER Sami Haahtinen <ressu@ressukka.net>
 
-# Download gosu, git and SickGear.
+# Download su-exec, git and SickGear.
 RUN apk add shadow \
       --update-cache \
-      --repository http://dl-3.alpinelinux.org/alpine/edge/testing/ \
+      --repository http://dl-3.alpinelinux.org/alpine/edge/community/ \
       --allow-untrusted && \
     apk add \
       ca-certificates \
@@ -19,14 +19,8 @@ RUN apk add shadow \
       musl-dev \
       shadow \
       tzdata \
+      su-exec \
       && \
-    gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
-    ARCH=`uname -m`; if [ $ARCH == "x86_64" ]; then export ARCH="amd64"; else export ARCH="i386"; fi && \
-    curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/1.6/gosu-$ARCH" && \
-    curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/1.6/gosu-$ARCH.asc" && \
-    gpg --verify /usr/local/bin/gosu.asc && \
-    rm /usr/local/bin/gosu.asc && \
-    chmod +x /usr/local/bin/gosu && \
     mkdir /opt && \
     git clone -b develop http://github.com/SickGear/SickGear /opt/SickGear && \
     pip install --no-cache-dir lxml && \

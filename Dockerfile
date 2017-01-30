@@ -1,42 +1,27 @@
-FROM python:2.7-alpine
+FROM python:2.7
 MAINTAINER Sami Haahtinen <ressu@ressukka.net>
 
-# Download su-exec, git and SickGear.
-RUN apk add shadow \
-      --update-cache \
-      --repository http://dl-3.alpinelinux.org/alpine/edge/community/ \
-      --allow-untrusted && \
-    apk add \
-      ca-certificates \
-      curl \
-      gcc \
-      git \
-      gnupg \
-      libxml2 \
-      libxml2-dev \
-      libxslt \
-      libxslt-dev \
-      musl-dev \
-      shadow \
-      tzdata \
-      su-exec \
+ENV GOSU_VERSION 1.9
+RUN set -x \
+    && apt-get update && apt-get install -y --no-install-recommends ca-certificates wget curl libxml2-dev libxslt-dev && rm -rf /var/lib/apt/lists/* \
+    && dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
+    && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
+    && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc" \
+    && export GNUPGHOME="$(mktemp -d)" \
+    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
+    && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
+    && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
+    && chmod +x /usr/local/bin/gosu \
+    && gosu nobody true \
       && \
-    mkdir /opt && \
     git clone -b develop http://github.com/SickGear/SickGear /opt/SickGear && \
     pip install --no-cache-dir lxml && \
     pip install --no-cache-dir -r /opt/SickGear/requirements.txt && \
     groupadd group && \
-    useradd -M -g group -d /opt/SickGear user && \
-    apk del \
-      ca-certificates \
-      curl \
-      gcc \
-      gnupg \
-      libxml2-dev \
-      libxslt-dev \
-      musl-dev \
-      && \
-    rm -rf /var/cache/apk/*
+    useradd -M -g group -d /opt/SickGear user \
+    && rm -rf /var/lib/apt/lists/*
+
+
 
 ENV APP_DATA="/data" PATH=/opt/SickGear:$PATH
 

@@ -1,7 +1,7 @@
 FROM python:2.7-alpine
 MAINTAINER Sami Haahtinen <ressu@ressukka.net>
 
-ENV SICKGEAR_VERSION 0.12.22
+ENV SICKGEAR_VERSION 0.12.23
 
 # Download gosu and SickGear.
 RUN apk add --update \
@@ -24,9 +24,9 @@ RUN apk add --update \
     rm /usr/local/bin/gosu.asc && \
     chmod +x /usr/local/bin/gosu && \
     mkdir /opt && \
-    curl -SL "https://github.com/SickGear/SickGear/archive/release_${SICKGEAR_VERSION}.tar.gz" | \
+    curl -SL "https://git.kulta.us/SickGear/SickGear/archive/release_${SICKGEAR_VERSION}.tar.gz" | \
       tar xz -C /opt && \
-    mv /opt/SickGear-release_${SICKGEAR_VERSION} /opt/SickGear && \
+    mv /opt/sickgear /opt/SickGear && \
     pip install --no-cache-dir lxml && \
     pip install --no-cache-dir -r /opt/SickGear/requirements.txt && \
     apk del \

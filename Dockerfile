@@ -30,7 +30,6 @@ RUN apk add --update \
     pip install --no-cache-dir lxml && \
     pip install --no-cache-dir -r /opt/SickGear/requirements.txt && \
     apk del \
-      ca-certificates \
       curl \
       gcc \
       gnupg \

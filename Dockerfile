@@ -14,7 +14,10 @@ RUN apk add --update \
       musl-dev \
       tzdata \
       && \
-    gpg --keyserver pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 && \
+    GPG_KEYS="B42F6819007F00F88E364FD4036A9C25BF357DD4" && \
+  ( gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEYS" \
+    || gpg --keyserver pgp.mit.edu --recv-keys "$GPG_KEYS" \
+    || gpg --keyserver keyserver.pgp.com --recv-keys "$GPG_KEYS" ) && \
     ARCH=`uname -m`; if [ $ARCH == "x86_64" ]; then export ARCH="amd64"; else export ARCH="i386"; fi && \
     curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/1.6/gosu-$ARCH" && \
     curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/1.6/gosu-$ARCH.asc" && \

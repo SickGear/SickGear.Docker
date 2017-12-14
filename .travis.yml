@@ -1,0 +1,9 @@
+sudo: required
+services:
+  - docker
+
+script:
+  - docker build --tag sickgear-travis .
+
+after_script:
+  - docker images

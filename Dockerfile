@@ -13,17 +13,8 @@ RUN apk add --update \
       libxslt-dev \
       musl-dev \
       tzdata \
+      su-exec \
       && \
-    GPG_KEYS="B42F6819007F00F88E364FD4036A9C25BF357DD4" && \
-  ( gpg --keyserver ha.pool.sks-keyservers.net --recv-keys "$GPG_KEYS" \
-    || gpg --keyserver pgp.mit.edu --recv-keys "$GPG_KEYS" \
-    || gpg --keyserver keyserver.pgp.com --recv-keys "$GPG_KEYS" ) && \
-    ARCH=`uname -m`; if [ $ARCH == "x86_64" ]; then export ARCH="amd64"; else export ARCH="i386"; fi && \
-    curl -o /usr/local/bin/gosu -SL "https://github.com/tianon/gosu/releases/download/1.6/gosu-$ARCH" && \
-    curl -o /usr/local/bin/gosu.asc -SL "https://github.com/tianon/gosu/releases/download/1.6/gosu-$ARCH.asc" && \
-    gpg --verify /usr/local/bin/gosu.asc && \
-    rm /usr/local/bin/gosu.asc && \
-    chmod +x /usr/local/bin/gosu && \
     mkdir /opt && \
     TAG_NAME=$(curl -s https://api.github.com/repos/SickGear/SickGear/releases | \
       python -c "import sys, json; print json.load(sys.stdin)[0]['tag_name']") && \

@@ -1,6 +1,6 @@
-# SickGear dockerized
+# SickGear Dockerized Official
 
-This image aims to be a best practices compliant docker image for SickGear.
+This is the official SickGear Docker repository.
 There are no moving parts inside the image and the image can be invoked with
 the `--read-only` flag.
 
@@ -13,7 +13,7 @@ Since SickGear operates on external data, the `/incoming` and `/tv` volumes
 need to be mounted. The most simple form of running the image is:
 
 ```
-docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgear-data:/data -p 8081:8081 ressu/sickgear
+docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgear-data:/data -p 8081:8081 deed02392/sickgear
 ```
 
 # Data persistence
@@ -22,8 +22,8 @@ This image stores data by default in `/data`, the path can be adjusted with
 `APP_DATA` environment variable. Usually this volume is mounted to a physical
 location for ease of access.
 
-*warning:* The image will automatically adjust the ownership of `/data` volume
-to match the userid of SickGear
+*Warning:* The image will automatically adjust the ownership of `/data` volume
+to match the uid and gid of SickGear, if they are different.
 
 # Updating the image
 
@@ -34,8 +34,8 @@ This image follows the idea that the container should be ephemeral. This means t
 An example update would be something like:
 ```
 docker kill <container-id>
-docker pull ressu/sickgear
-docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgear-data:/data -p 8081:8081 ressu/sickgear
+docker pull deed02392/sickgear
+docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgear-data:/data -p 8081:8081 deed02392/sickgear
 ```
 
 ## Automatic updates with Watchtower
@@ -57,7 +57,7 @@ docker run \
   -v /storage/incoming:/incoming \
   -v /storage/tv:/tv \
   -v /storage/sickgear-data:/data \
-  -p 8081:8081 ressu/sickgear
+  -p 8081:8081 deed02392/sickgear
 ```
 
 # Volumes
@@ -82,7 +82,7 @@ Default configuration includes `/tv` as the show root directory.
 
 ## Permissions
 
-Outside of /data, the file permissions are not adjusted automatically, so if you need
+Apart from `/data`, file permissions are not adjusted automatically, so if you need
 to modify the user id (via `APP_UID`), you need to make sure that the user has
 proper permissions for the `/incoming` and `/tv` volumes.
 
@@ -115,15 +115,10 @@ You can use the TZ environment to adjust the default timezone of the service.
 
 By default SickGear listens on port 8081, this port is exposed from the image.
 
-# The develop image
-
-To ease testing and development, there is also a variant of this image that
-includes git. It can be installed by using the image `ressu/sickgear:develop`
-
 # Examples
 
 A complete example of running the service with a certain UID and timezone would be:
 
 ```
-docker run --rm -it -e APP_UID=1000 -e APP_GID=44 -p 8081:8081 -v /storage/sickgear-data:/data -v /storage/tv:/tv -v /storage/incoming:/incoming -e TZ=Europe/Berlin ressu/sickgear
+docker run --rm -it -e APP_UID=1000 -e APP_GID=44 -p 8081:8081 -v /storage/sickgear-data:/data -v /storage/tv:/tv -v /storage/incoming:/incoming -e TZ=Europe/Berlin deed02392/sickgear
 ```

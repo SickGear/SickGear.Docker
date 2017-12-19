@@ -9,6 +9,11 @@ the Python image.
 
 # Usage
 
+Pick your Docker environment:
+
+* User: *deed02392/sickgear:latest* (or simply *deed02392/sickgear*) - Docker container with the latest SickGear release.
+* Developer/Tester: *deed02392/sickgear:develop* - Docker container with the latest develop features of SickGear - may be unstable! Only use if you are a developer and keep backups of your `/data` directory. 
+
 Since SickGear operates on external data, the `/incoming` and `/tv` volumes
 need to be mounted. The most simple form of running the image is:
 

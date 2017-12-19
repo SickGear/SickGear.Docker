@@ -1,7 +1,7 @@
 FROM python:2.7-alpine
 MAINTAINER Sami Haahtinen <ressu@ressukka.net>
 
-# Download gosu and SickGear.
+# Download SickGear with git. Keep git to enable dev work and testing.
 RUN apk add --update \
       ca-certificates \
       curl \
@@ -14,13 +14,11 @@ RUN apk add --update \
       musl-dev \
       tzdata \
       su-exec \
+      git \
       && \
     mkdir /opt && \
-    TAG_NAME=$(curl -s https://api.github.com/repos/SickGear/SickGear/releases | \
-      python -c "import sys, json; print json.load(sys.stdin)[0]['tag_name']") && \
-    curl -SL "https://github.com/SickGear/SickGear/archive/${TAG_NAME}.tar.gz" | \
-      tar xz -C /opt && \
-    mv /opt/SickGear-${TAG_NAME} /opt/SickGear && \
+    cd /opt && \
+    git clone --depth 1 -b develop https://github.com/SickGear/SickGear.git && \
     pip install --no-cache-dir lxml && \
     pip install --no-cache-dir -r /opt/SickGear/requirements.txt && \
     apk del \

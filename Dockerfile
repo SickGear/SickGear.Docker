@@ -1,31 +1,37 @@
-FROM python:2.7
+FROM python:2.7-alpine
 MAINTAINER Sami Haahtinen <ressu@ressukka.net>
 
-ENV GOSU_VERSION 1.9
-ENV SICKGEAR_VERSION 0.12.5
-
 # Download gosu and SickGear.
-RUN set -x \
-    && apt-get update && apt-get install -y --no-install-recommends ca-certificates wget curl libxml2-dev libxslt-dev \
-    && rm -rf /var/lib/apt/lists/* \
-    && dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')" \
-    && wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch" \
-    && wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc" \
-    && export GNUPGHOME="$(mktemp -d)" \
-    && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
-    && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
-    && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
-    && chmod +x /usr/local/bin/gosu \
-    && gosu nobody true \
+RUN apk add --update \
+      ca-certificates \
+      curl \
+      gcc \
+      gnupg \
+      libxml2 \
+      libxml2-dev \
+      libxslt \
+      libxslt-dev \
+      musl-dev \
+      tzdata \
+      su-exec \
       && \
-    curl -SL "https://github.com/SickGear/SickGear/archive/release_${SICKGEAR_VERSION}.tar.gz" | \
+    mkdir /opt && \
+    TAG_NAME=$(curl -s https://api.github.com/repos/SickGear/SickGear/releases | \
+      python -c "import sys, json; print json.load(sys.stdin)[0]['tag_name']") && \
+    curl -SL "https://github.com/SickGear/SickGear/archive/${TAG_NAME}.tar.gz" | \
       tar xz -C /opt && \
-    mv /opt/SickGear-release_${SICKGEAR_VERSION} /opt/SickGear && \
+    mv /opt/SickGear-${TAG_NAME} /opt/SickGear && \
     pip install --no-cache-dir lxml && \
-    pip install --no-cache-dir -r /opt/SickGear/requirements.txt \
-    && rm -rf /var/lib/apt/lists/*
-
-
+    pip install --no-cache-dir -r /opt/SickGear/requirements.txt && \
+    apk del \
+      curl \
+      gcc \
+      gnupg \
+      libxml2-dev \
+      libxslt-dev \
+      musl-dev \
+      && \
+    rm -rf /var/cache/apk/*
 
 ENV APP_DATA="/data" PATH=/opt/SickGear:$PATH
 

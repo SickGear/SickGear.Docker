@@ -3,7 +3,7 @@ set -e
 
 # If we are called with default arguments, invoke SickGear with datadir and
 # setup the environment
-if [ "$1" = 'SickBeard.py' ]; then
+if [ "$1" = 'sickgear.py' ]; then
   if [ ! -f ${APP_DATA}/config.ini ]; then
     cp /template/config.ini ${APP_DATA}/
   fi

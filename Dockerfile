@@ -1,5 +1,4 @@
 FROM python:2.7
-MAINTAINER Sami Haahtinen <ressu@ressukka.net>
 
 ENV GOSU_VERSION 1.9
 RUN set -x \
@@ -10,12 +9,14 @@ RUN set -x \
     && export GNUPGHOME="$(mktemp -d)" \
     && gpg --keyserver ha.pool.sks-keyservers.net --recv-keys B42F6819007F00F88E364FD4036A9C25BF357DD4 \
     && gpg --batch --verify /usr/local/bin/gosu.asc /usr/local/bin/gosu \
-    && rm -r "$GNUPGHOME" /usr/local/bin/gosu.asc \
+    && rm -rf "$GNUPGHOME" /usr/local/bin/gosu.asc \
     && chmod +x /usr/local/bin/gosu \
     && gosu nobody true \
       && \
-    git clone -b develop http://github.com/SickGear/SickGear /opt/SickGear && \
+    git clone -b develop https://github.com/SickGear/SickGear /opt/SickGear && \
     pip install --no-cache-dir lxml && \
+    pip install --no-cache-dir regex && \
+    pip install --no-cache-dir scandir && \
     pip install --no-cache-dir -r /opt/SickGear/requirements.txt && \
     groupadd group && \
     useradd -M -g group -d /opt/SickGear user \
@@ -23,7 +24,7 @@ RUN set -x \
 
 
 
-ENV APP_DATA="/data" PATH=/opt/SickGear:$PATH
+ENV APP_DATA="/data" PATH=/opt/SickGear:$PATH TZ=UTC
 
 EXPOSE 8081
 VOLUME /data /tv /incoming
@@ -33,4 +34,4 @@ COPY entrypoint.sh /
 
 ENTRYPOINT ["/entrypoint.sh"]
 
-CMD ["SickBeard.py"]
+CMD ["sickgear.py"]

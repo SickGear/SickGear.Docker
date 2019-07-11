@@ -1,8 +1,7 @@
-# SickGear dockerized
+# SickGear dockerized :: Git enabled build
 
-This image aims to be a best practices compliant docker image for SickGear.
-There are no moving parts inside the image and the image can be invoked with
-the `--read-only` flag.
+This image DOES NOT aim to be a best practices compliant docker image for SickGear.
+There are moving parts inside the image that facilitate updates and changing SickGear branches using git.
 
 The image is intentionally kept small and is based on the Alpine variation of
 the Python image.
@@ -13,7 +12,7 @@ Since SickGear operates on external data, the `/incoming` and `/tv` volumes
 need to be mounted. The most simple form of running the image is:
 
 ```
-docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgear-data:/data -p 8081:8081 ressu/sickgear
+docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgear-data:/data -p 8081:8081 sickgear/sickgear:develop
 ```
 
 # Data persistence
@@ -34,8 +33,8 @@ This image follows the idea that the container should be ephemeral. This means t
 An example update would be something like:
 ```
 docker kill <container-id>
-docker pull ressu/sickgear
-docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgear-data:/data -p 8081:8081 ressu/sickgear
+docker pull sickgear/sickgear:develop
+docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgear-data:/data -p 8081:8081 sickgear/sickgear:develop
 ```
 
 ## Automatic updates with Watchtower
@@ -57,7 +56,7 @@ docker run \
   -v /storage/incoming:/incoming \
   -v /storage/tv:/tv \
   -v /storage/sickgear-data:/data \
-  -p 8081:8081 ressu/sickgear
+  -p 8081:8081 sickgear/sickgear:develop
 ```
 
 # Volumes
@@ -115,18 +114,10 @@ You can use the TZ environment to adjust the default timezone of the service.
 
 By default SickGear listens on port 8081, this port is exposed from the image.
 
-# Git enabled builds
-
-To ease testing and development, there is also a variant of this image that
-includes git. It can be installed by using the image `ressu/sickgear:develop`
-
-The main build is recommended for daily use, but there is the develop option if
-you happen to feel adventurous
-
 # Examples
 
 A complete example of running the service with a certain UID and timezone would be:
 
 ```
-docker run --rm -it -e APP_UID=1000 -e APP_GID=44 -p 8081:8081 -v /storage/sickgear-data:/data -v /storage/tv:/tv -v /storage/incoming:/incoming -e TZ=Europe/Berlin ressu/sickgear
+docker run --rm -it -e APP_UID=1000 -e APP_GID=44 -p 8081:8081 -v /storage/sickgear-data:/data -v /storage/tv:/tv -v /storage/incoming:/incoming -e TZ=Europe/Berlin sickgear/sickgear:develop
 ```

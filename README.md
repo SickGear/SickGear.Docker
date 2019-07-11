@@ -2,27 +2,28 @@
 
 This is the official SickGear Docker repository.  
   
-**Background**: This repo was hosted for the last few years at namespaces _ressu/_ and _deed02392/_ (thanks guys). On Jun 22, 2018, Docker fixed the sickgear account backend breakages. Now that the sickgear account can build, things can be properly arranged at the [official sickgear](https://hub.docker.com/r/sickgear) namespace - at last.  
-
-Finally, thank you resno :)
-
+**Background**: This builder was first hosted under namespaces _ressu/_ and then _deed02392/_ (thanks guys) because the SickGear Docker account was borked. Docker fixed the backend on Jun 22, 2018 and this builder is now home at the [official sickgear](https://hub.docker.com/r/sickgear/sickgear) namespace.  
+  
+Finally, thanks to resno for his help :)
+  
 ---
 
-# SickGear Dockerized Official
+# SickGear Official Docker
 
-There are no moving parts inside the image and the image can be invoked with the `--read-only` flag.
+There are no moving parts inside the image and it can be invoked with the `--read-only` flag.
 
 The image is intentionally kept small and is based on the Alpine variation of the Python image.
 
 # Usage
 
-Pick your Docker environment:
-
-* User: *sickgear/sickgear:latest* (or simply *sickgear/sickgear*) - Docker container with the latest SickGear release.
-* Developer/Tester: *sickgear/sickgear:develop* - Docker container with the latest develop features of SickGear - may be unstable! Only use if you are a developer and keep backups of your `/data` directory. 
-
+Pick your Docker environment:  
+  
+* Daily user: *sickgear/sickgear:latest* (or simply *sickgear/sickgear*)  
+    - Docker container tracking the latest SickGear release  
+* Developer/Tester: *sickgear/sickgear:develop*  
+    - Docker container with the latest develop features. Keep a backup of your `/data` directory  
+  
 Since SickGear operates on external data, the `/incoming` and `/tv` volumes need to be mounted. The most simple form of running the image is:
-
 ```
 docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgear-data:/data -p 8081:8081 sickgear/sickgear
 ```
@@ -89,7 +90,7 @@ Default configuration includes `/tv` as the show root directory.
 ## Permissions
 
 Apart from `/data`, file permissions are not adjusted automatically, so if you need to modify the user id (via `APP_UID`), you need to make sure that the user has proper permissions for the `/incoming` and `/tv` volumes.
- 
+
 # Environment variables
 
 Since it is not recommended to run services as root, the image supports switching users on the fly. Here are some of the central environment variables
@@ -110,7 +111,7 @@ The ownership of the path in `APP_DATA` is changed to match `APP_UID`.
 
 ## TZ
 
-You can use the TZ environment to adjust the default timezone of the service.
+You should use the TZ environment to adjust the default timezone of the service. This makes it so that shows will search and fetch correctly for _your_ local time... plus, SickGear's config/general/Interface/timezone uses this.
 
 # Exposed ports
 

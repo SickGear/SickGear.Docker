@@ -10,7 +10,9 @@ Finally, thanks to resno for his help :)
 
 # SickGear Official Docker
 
-There are no moving parts inside the image and it can be invoked with the `--read-only` flag.
+There are no moving parts inside the `Daily user` image and it can be invoked with the `--read-only` flag.
+
+The `Dev/Tester` image is unique here and gives access to the latest SG features.
 
 The image is intentionally kept small and is based on the Alpine variation of the Python image.
 
@@ -19,9 +21,9 @@ The image is intentionally kept small and is based on the Alpine variation of th
 Pick your Docker environment:  
   
 * Daily user: *sickgear/sickgear:latest* (or simply *sickgear/sickgear*)  
-    - Docker container tracking the latest SickGear release  
-* Developer/Tester: *sickgear/sickgear:develop*  
-    - Docker container with the latest develop features. Keep a backup of your `/data` directory  
+    - Docker container tracking the latest SickGear master release  
+* Dev/Tester: *sickgear/sickgear:develop*  
+    - Docker container with the latest develop features.  
   
 Since SickGear operates on external data, the `/incoming` and `/tv` volumes need to be mounted. The most simple form of running the image is:
 ```

@@ -3,7 +3,7 @@ FROM python:2.7-alpine
 RUN apk add --update \
       ca-certificates curl gcc gnupg \
       libxml2 libxml2-dev libxslt libxslt-dev \
-      musl-dev tzdata su-exec \
+      musl-dev tzdata su-exec unrar \
     && \
     mkdir -p /opt && \
     TAG_NAME=$(curl -s https://api.github.com/repos/SickGear/SickGear/releases | \

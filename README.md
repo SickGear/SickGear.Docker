@@ -14,7 +14,7 @@ There are no moving parts inside the `Daily user` image and it can be invoked wi
 
 The `Dev/Tester` image is unique here and gives access to the latest SG features.
 
-The image is intentionally kept small and is based on the Alpine variation of the Python image.
+The image is intentionally kept small and is based on the Alpine variation of the Python 3 image.
 
 # Usage
 

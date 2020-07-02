@@ -53,7 +53,7 @@ docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgea
 
 ## Automatic updates with Watchtower
 
-If you want automatic updates, you can use watchtower. Watchtower is a small utility packed inside a container that periodically tries to update containers.
+If you want automatic updates, you can use watchtower. [Watchtower](https://containrrr.dev/watchtower/) is a small utility packed inside a container that periodically tries to update containers.
 
 You can use watchtower as follows:
 ```

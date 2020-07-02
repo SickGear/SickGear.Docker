@@ -125,6 +125,7 @@ A complete example of running the service with a certain UID and timezone would 
 docker run --rm -it -e APP_UID=1000 -e APP_GID=44 -p 8081:8081 -v /storage/sickgear-data:/data -v /storage/tv:/tv -v /storage/incoming:/incoming -e TZ=Europe/Berlin sickgear/sickgear
 ```
 ## Docker Compose
+Create a file name `docker-compose.yaml` and place the below text inside.
 ```
 version: "3"
 services:
@@ -142,3 +143,4 @@ services:
       - /storage/tv:/tv
       - /storage/incoming:/incoming
  ```
+In the directory with the file, run your new container `docker-compose up -d`

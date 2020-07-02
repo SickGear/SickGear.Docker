@@ -143,4 +143,4 @@ services:
       - /storage/tv:/tv
       - /storage/incoming:/incoming
  ```
-In the directory with the file, run your new container `docker-compose up -d`
+In the directory with the file, run your new container with the following command: `docker-compose up -d`

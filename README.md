@@ -62,7 +62,7 @@ docker run -d --name watchtower \
   containrrr/watchtower 
 ```
 
-The last two parameters define names of the containers you want to watch. By default Docker launches containers under randomized names. If you want to change your SickGear container to a certain name You need to add a `--name <containername>` to the run command. For example:
+By default Docker launches containers under randomized names. If you want to change your SickGear container to a certain name You need to add a `--name <containername>` to the run command. For example:
 ```
 docker run \
   --name sickgear

@@ -65,7 +65,7 @@ docker run -d --name watchtower \
 By default Docker launches containers under randomized names. If you want to change your SickGear container to a certain name You need to add a `--name <containername>` to the run command. For example:
 ```
 docker run \
-  --name sickgear
+  --name sickgear \
   -v /storage/incoming:/incoming \
   -v /storage/tv:/tv \
   -v /storage/sickgear-data:/data \

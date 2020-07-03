@@ -122,7 +122,7 @@ By default SickGear listens on port 8081, this port is exposed from the image.
 A complete example of running the service with a certain UID and timezone would be:
 ## Docker Run
 ```
-docker run --rm -it -e APP_UID=1000 -e APP_GID=44 -p 8081:8081 -v /storage/sickgear-data:/data -v /storage/tv:/tv -v /storage/incoming:/incoming -e TZ=UTC sickgear/sickgear
+docker run --rm -it -e APP_UID=1000 -e APP_GID=44 -p 8081:8081 -v /storage/sickgear-data:/data -v /storage/tv:/tv -v /storage/incoming:/incoming -e TZ=UTC --name sickgear sickgear/sickgear
 ```
 ## Docker Compose File
 ```

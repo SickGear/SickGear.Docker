@@ -53,17 +53,16 @@ docker run -v /storage/incoming:/incoming -v /storage/tv:/tv -v /storage/sickgea
 
 ## Automatic updates with Watchtower
 
-If you want automatic updates, you can use watchtower. Watchtower is a small utility packed inside a container that periodically tries to update containers.
+If you want automatic updates, you can use watchtower. [Watchtower](https://containrrr.dev/watchtower/) is a small utility packed inside a container that periodically tries to update containers.
 
 You can use watchtower as follows:
 ```
 docker run -d --name watchtower \
   -v /var/run/docker.sock:/var/run/docker.sock \
-  centurylink/watchtower \
-  sickgear watchtower
+  containrrr/watchtower 
 ```
 
-The last two parameters define names of the containers you want to watch. By default Docker launches containers under randomized names. If you want to change your SickGear container to a certain name You need to add a `--name <containername>` to the run command. For example:
+By default Docker launches containers under randomized names. If you want to change your SickGear container to a certain name You need to add a `--name <containername>` to the run command. For example:
 ```
 docker run \
   --name sickgear
@@ -120,9 +119,26 @@ You should use the TZ environment to adjust the default timezone of the service.
 By default SickGear listens on port 8081, this port is exposed from the image.
 
 # Examples
-
 A complete example of running the service with a certain UID and timezone would be:
-
+## Docker Run
 ```
-docker run --rm -it -e APP_UID=1000 -e APP_GID=44 -p 8081:8081 -v /storage/sickgear-data:/data -v /storage/tv:/tv -v /storage/incoming:/incoming -e TZ=Europe/Berlin sickgear/sickgear
+docker run --rm -it -e APP_UID=1000 -e APP_GID=44 -p 8081:8081 -v /storage/sickgear-data:/data -v /storage/tv:/tv -v /storage/incoming:/incoming -e TZ=UTC --name sickgear sickgear/sickgear
 ```
+## Docker Compose File
+```
+version: "3"
+services:
+  sickgear:
+    container_name: sickgear
+    environment:
+      - APP_UID=1000
+      - APP_GID=44
+      - TZ=UTC
+    image: sickgear/sickgear
+    ports:
+      - 8081:8081/tcp
+    volumes:
+      - /storage/sickgear-data:/data
+      - /storage/tv:/tv
+      - /storage/incoming:/incoming
+ ```

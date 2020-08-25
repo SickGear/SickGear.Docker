@@ -2,6 +2,8 @@
 
 This is the official SickGear Docker repository.  
   
+[![Docker Pulls](https://img.shields.io/docker/pulls/sickgear/sickgear.svg?color=399439&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=pulls&logo=docker)](https://hub.docker.com/r/sickgear/sickgear)[![Docker Stars](https://img.shields.io/docker/stars/sickgear/sickgear.svg?color=399439&labelColor=555555&logoColor=ffffff&style=for-the-badge&label=stars&logo=docker)](https://hub.docker.com/r/sickgear/sickgear)
+  
 **Background**: This builder was first hosted under namespaces _ressu/_ and then _deed02392/_ (thanks guys) because the SickGear Docker account was borked. Docker fixed the backend on Jun 22, 2018 and this builder is now home at the [official sickgear](https://hub.docker.com/r/sickgear/sickgear) namespace.  
   
 Finally, thanks to resno for his help :)

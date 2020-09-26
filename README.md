@@ -1,4 +1,4 @@
-![SickGear Logo](https://raw.githubusercontent.com/SickGear/SickGear/master/gui/slick/images/sickgear-large.png)
+![SickGear Logo](https://raw.githubusercontent.com/wiki/SickGear/SickGear/images/SickGearLogoDocker_x250.png)
 
 This is the official SickGear Docker repository.  
   

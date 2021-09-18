@@ -1,6 +1,6 @@
-FROM python:2.7
+FROM python:3.9
 
-ENV GOSU_VERSION 1.11
+ENV GOSU_VERSION 1.14
 RUN set -eux; \
 # save list of currently installed packages for later so we can clean up
 	savedAptMark="$(apt-mark showmanual)"; \
@@ -14,6 +14,7 @@ RUN set -eux; \
 	fi; \
 	rm -rf /var/lib/apt/lists/*; \
 	\
+	python -V; \
 	dpkgArch="$(dpkg --print-architecture | awk -F- '{ print $NF }')"; \
 	wget -O /usr/local/bin/gosu "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch"; \
 	wget -O /usr/local/bin/gosu.asc "https://github.com/tianon/gosu/releases/download/$GOSU_VERSION/gosu-$dpkgArch.asc"; \
@@ -38,6 +39,7 @@ RUN set -eux; \
 	# fetch SickGear
 	git clone -b develop https://github.com/SickGear/SickGear /opt/SickGear; \
 	pip install --no-cache-dir lxml; \
+	pip install --no-cache-dir python-Levenshtein; \
 	pip install --no-cache-dir regex; \
 	pip install --no-cache-dir scandir; \
 	pip install --no-cache-dir -r /opt/SickGear/requirements.txt; \

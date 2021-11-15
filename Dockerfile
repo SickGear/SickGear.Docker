@@ -1,4 +1,4 @@
-FROM alpine:3.14.2
+FROM alpine:3.14.3
 
 RUN \
 # debug output disable/enable(+/-)

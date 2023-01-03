@@ -19,6 +19,7 @@ RUN \
 	&& apk add --quiet --update --no-progress --virtual=build-deps3 make \
 	&& apk add --quiet --update --no-progress --virtual=build-deps4 py3-pip \
 	&& apk add --quiet --update --no-progress --virtual=build-deps5 py3-wheel \
+	&& apk add --quiet --update --no-progress --virtual=build-deps6 cargo \
 	&& apk add --update --no-progress \
 		ca-certificates   git   libxml2   libxslt   shadow   su-exec   tzdata \
 		py3-cffi   py3-cryptography   py3-lxml \
@@ -31,7 +32,7 @@ RUN \
 	&& mkdir -p ${SG} \
 	&& git clone -b develop --depth 1 https://github.com/SickGear/SickGear ${SG} \
 	&& addgroup -S group \
-	&& adduser -S -G group -h /opt/SickGear user \
+	&& adduser -S -G group -h ${SG} user \
 	&& echo "-------------------------------------------" \
 \
 	&& echo "*** Install Python Packages ***" \
@@ -60,7 +61,7 @@ RUN \
 \
 	&& echo "*** Cleanup ***" \
 	&& apk del --quiet --purge --no-progress \
-		build-deps5 build-deps4 build-deps3 build-deps2 build-deps1 \
+		build-deps6 build-deps5 build-deps4 build-deps3 build-deps2 build-deps1 \
 	&& find / -type d -name "__pycache__" | xargs rm -rf \
 	&& rm -rf /tmp/* /root/.cache /var/cache/apk/* \
 	&& echo "-------------------------------------------"

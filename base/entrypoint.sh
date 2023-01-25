@@ -16,7 +16,7 @@ if [ 'sickgear.py' = "$1" ]; then
   cat > "${APP_DATA}/_DOCKER.txt" <<EOT
 +--------------------------------------+
 ||      Official SickGear Docker      ||
-||        Tracks branch:master        ||
+||        Tracks branch:main        ||
 +--------------------------------------+
 Find third-party application helpers and
 config files at; ${APP_DATA}/autoProcessTV/
@@ -50,9 +50,9 @@ EOT
   fi
 
   if [ -f "${APP_DATA}/config.ini" ]; then
-    sed -i -E 's/develop(")?$/master\1/' "${APP_DATA}/config.ini"
+    sed -i -E 's/dev(")?$/main\1/' "${APP_DATA}/config.ini"
     sed -i -E 's/cur_commit_hash = "[^"]*"$/cur_commit_hash = "docker (official)"/' "${APP_DATA}/config.ini"
-    sed -i -E 's/cur_commit_branch = "[^"]*"$/cur_commit_branch = "master"/' "${APP_DATA}/config.ini"
+    sed -i -E 's/cur_commit_branch = "[^"]*"$/cur_commit_branch = "main"/' "${APP_DATA}/config.ini"
   fi
 
   cd /opt/SickGear

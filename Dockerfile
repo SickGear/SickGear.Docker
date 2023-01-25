@@ -49,8 +49,7 @@ RUN \
 		./lib/apprise/plugins/__init__.py \
 		./lib/apprise/plugins/*Base.py \
 		./lib/apprise/plugins/*Email.py \
-		./lib/apprise/plugins/*Growl \
-		./lib/apprise/plugins/*XMPP ${TMP} \
+		./lib/apprise/plugins/*Growl ${TMP} \
 	&& rm -rf ./lib/apprise/plugins/* \
 	&& cp -rp ${TMP}* ./lib/apprise/plugins/ \
 	&& unset TMP \

@@ -24,7 +24,7 @@ if [ 'sickgear.py' = "$1" ]; then
   cat > "${APP_DATA}/_DOCKER.txt" <<EOT
 +--------------------------------------+
 ||      Official SickGear Docker      ||
-||       Tracks branch:develop        ||
+||         Tracks branch:dev          ||
 +--------------------------------------+
 Find third-party application helpers and
 config files at; ${APP_DATA}/autoProcessTV/
@@ -64,9 +64,9 @@ EOT
   su-exec ${APP_UIDGID} git pull
 
   if [ -f "${APP_DATA}/config.ini" ]; then
-    su-exec ${APP_UIDGID} sed -i -E 's/master(")?$/develop\1/' "${APP_DATA}/config.ini"
+    su-exec ${APP_UIDGID} sed -i -E 's/main(")?$/dev\1/' "${APP_DATA}/config.ini"
     su-exec ${APP_UIDGID} sed -i -E 's/cur_commit_hash = .*$/cur_commit_hash = '$(su-exec ${APP_UIDGID} git rev-parse HEAD)'/' "${APP_DATA}/config.ini"
-    su-exec ${APP_UIDGID} sed -i -E 's/cur_commit_branch = .*$/cur_commit_branch = develop/' "${APP_DATA}/config.ini"
+    su-exec ${APP_UIDGID} sed -i -E 's/cur_commit_branch = .*$/cur_commit_branch = dev/' "${APP_DATA}/config.ini"
   fi
  
   su-exec ${APP_UIDGID} cp -Rf ./autoProcessTV "${APP_DATA}"

@@ -75,7 +75,7 @@ To access the SickGear application in a running container, navigate in a browser
 <tr><td><b>Track latest development features</b></td><td><em>sickgear/sickgear:develop</em></td><td><b>Read below</b></td></tr>
 </table>
   
-A basic example of running image:develop as root (not recommended) is:
+A basic example of running image:dev as root (not recommended) is:
 ```
 docker run \
   -p 8081:8081 \
@@ -86,7 +86,7 @@ docker run \
 ```
 where volumes `/incoming` and `/tv` are mounted to use external data with SickGear.  
   
-However, a far better example of running image:develop as a user is:
+However, a far better example of running image:dev as a user is:
 ```
 docker run \
   --name=sickgear \
@@ -231,7 +231,4 @@ The last two parameters declare container names to watch and update.
   
 ## Historical
 
-SickGear was sited under namespace ressu/ and then deed02392/ (thanks guys) because the SickGear Docker account was borked. Docker fixed the backend Jun 22, 2018 and the image has since been hosted at the official sickgear namespace.  Special thanks to resno for his initial help.
-  
-Docker ceased building FOSS images mid 2021, so the build process was remade at Microsoft owned GitHub with images _currently_ pushed to DockerHub registry for legacy reasons. This readme was also overhauled to (hopefully) make these things easier to use.
-  
+SickGear was sited under namespace ressu/ and then deed02392/ (thanks guys). The backend was fixed Jun 22, 2018 and the image has since been hosted at the official sickgear namespace.  Special thanks to resno for his initial help.

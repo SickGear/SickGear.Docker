@@ -30,7 +30,7 @@ RUN \
 	&& su-exec nobody true \
 	&& export SG=/opt/SickGear \
 	&& mkdir -p ${SG} \
-	&& git clone -b develop --depth 1 https://github.com/SickGear/SickGear ${SG} \
+	&& git clone -b dev --depth 1 https://github.com/SickGear/SickGear ${SG} \
 	&& addgroup -S group \
 	&& adduser -S -G group -h ${SG} user \
 	&& echo "-------------------------------------------" \

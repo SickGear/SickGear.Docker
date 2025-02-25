@@ -47,9 +47,10 @@ RUN \
 	&& mkdir -p ${TMP} \
 	&& cp -rp \
 		./lib/apprise/plugins/__init__.py \
-		./lib/apprise/plugins/*Base.py \
-		./lib/apprise/plugins/*Email.py \
-		./lib/apprise/plugins/*Growl ${TMP} \
+		./lib/apprise/plugins/base.py \
+		./lib/apprise/plugins/email.py \
+		./lib/apprise/plugins/growl.py \
+		./lib/apprise/plugins/gntp ${TMP} \
 	&& rm -rf ./lib/apprise/plugins/* \
 	&& cp -rp ${TMP}* ./lib/apprise/plugins/ \
 	&& unset TMP \

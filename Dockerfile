@@ -22,7 +22,7 @@ RUN \
 	&& apk add --quiet --update --no-progress --virtual=build-deps5 py3-wheel \
 	&& apk add --quiet --update --no-progress --virtual=build-deps6 cargo \
 	&& apk add --update --no-progress \
-		ca-certificates   git   libxml2   libxslt   shadow   su-exec   tzdata \
+		ca-certificates   git   libxml2   libxslt   su-exec   tzdata \
 		py3-cffi   py3-cryptography   py3-lxml   py3-pip \
 #	&& python3 -m pip install --upgrade pip wheel \
 	&& echo "-------------------------------------------" \
@@ -32,8 +32,8 @@ RUN \
 	&& export SG=/opt/SickGear \
 	&& mkdir -p ${SG} \
 	&& git clone -b dev --depth 1 https://github.com/SickGear/SickGear ${SG} \
-	&& addgroup -S group \
-	&& adduser -S -G group -h ${SG} user \
+	&& addgroup -S -g 1000 sickgear \
+	&& adduser -S -D -u 1000 -G sickgear -h ${SG} -s /sbin/nologin sickgear \
 	&& echo "-------------------------------------------" \
 \
 	&& echo "*** Install Python Packages ***" \

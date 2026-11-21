@@ -75,7 +75,7 @@ To access the SickGear application in a running container, navigate in a browser
 <tr><td><b>Track latest development features</b></td><td><em>sickgear/sickgear:develop</em></td><td><b>Read below</b></td></tr>
 </table>
   
-A basic example of running image:dev as root (not recommended) is:
+A basic example of running image:dev as user sickgear (uid 1000, gid 1000) is:
 ```
 docker run \
   -p 8081:8081 \
@@ -86,7 +86,7 @@ docker run \
 ```
 where volumes `/incoming` and `/tv` are mounted to use external data with SickGear.  
   
-However, a far better example of running image:dev as a user is:
+An example of running image:dev as a host user is:
 ```
 docker run \
   --name=sickgear \
@@ -98,7 +98,7 @@ docker run \
   -v /storage/tv:/tv \
   sickgear/sickgear:develop
 ```
-which includes a uid and gid since it is not recommended to run services as root.  
+which includes a uid and gid to run SickGear as an existing host user and group.  
 Tips:  
 * enter `id username` on the host OS to get uid and gid  
 * `--name=<value>` secures a name for external apps to refer to a container  
@@ -131,8 +131,8 @@ services:
 Configure a SickGear container with the following environment variables and parameters...
 <table>
 <tr><th>Environment</th><th>Description for environment variable</th></tr>
-<tr><td>-e APP_UID=[<em>number</em>]</td><td>run SickGear as user id, default: 0 (root)<br>ownership of <code>/data</code> is changed to this user on startup</td></tr>
-<tr><td>-e APP_GID=[<em>number</em>]</td><td>run SickGear as group id, default: 0<br>useful for making files available for the <code>video</code> or <code>users</code> group</td></tr>
+<tr><td>-e APP_UID=[<em>number</em>]</td><td>run SickGear as user id, default: 1000 (user sickgear)<br>ownership of <code>/data</code> is changed to this user on startup</td></tr>
+<tr><td>-e APP_GID=[<em>number</em>]</td><td>run SickGear as group id, default: 1000 (group sickgear)<br>useful for making files available for the <code>video</code> or <code>users</code> group</td></tr>
 <tr><td>-e TZ=[<em>string</em>]</td><td>manage shows in supplied timezone e.g. <code>Europe/Berlin</code><br>and used by SickGear's config/General/Interface/Timezone</td></tr>
 
 <tr><th width="200">Param [host]:[image]</th><th>Description for host(ext):image(int) value</th></tr>

@@ -1,6 +1,8 @@
 # Edge has latest builds for py3-cryptography, py3-lxml, py3-wheel
 
 FROM alpine:edge
+# allow pip to install into Alpine system Python, at build and for in-app installs by SickGear piper
+ENV PIP_BREAK_SYSTEM_PACKAGES=1
 RUN \
 #	debug output disable/enable(+/-)
 #	set +eux \
@@ -17,12 +19,11 @@ RUN \
 	&& apk add --quiet --update --no-progress --virtual=build-deps1 curl \
 	&& apk add --quiet --update --no-progress --virtual=build-deps2 g++ \
 	&& apk add --quiet --update --no-progress --virtual=build-deps3 make \
-	&& apk add --quiet --update --no-progress --virtual=build-deps4 py3-pip \
 	&& apk add --quiet --update --no-progress --virtual=build-deps5 py3-wheel \
 	&& apk add --quiet --update --no-progress --virtual=build-deps6 cargo \
 	&& apk add --update --no-progress \
 		ca-certificates   git   libxml2   libxslt   shadow   su-exec   tzdata \
-		py3-cffi   py3-cryptography   py3-lxml \
+		py3-cffi   py3-cryptography   py3-lxml   py3-pip \
 #	&& python3 -m pip install --upgrade pip wheel \
 	&& echo "-------------------------------------------" \
 \
@@ -61,7 +62,7 @@ RUN \
 \
 	&& echo "*** Cleanup ***" \
 	&& apk del --quiet --purge --no-progress \
-		build-deps6 build-deps5 build-deps4 build-deps3 build-deps2 build-deps1 \
+		build-deps6 build-deps5 build-deps3 build-deps2 build-deps1 \
 	&& find / -type d -name "__pycache__" | xargs rm -rf \
 	&& rm -rf /tmp/* /root/.cache /var/cache/apk/* \
 	&& echo "-------------------------------------------"

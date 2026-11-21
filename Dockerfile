@@ -47,9 +47,10 @@ RUN \
 	&& mkdir -p ${TMP} \
 	&& cp -rp \
 		./lib/apprise/plugins/__init__.py \
-		./lib/apprise/plugins/*Base.py \
-		./lib/apprise/plugins/*Email.py \
-		./lib/apprise/plugins/*Growl ${TMP} \
+		./lib/apprise/plugins/base.py \
+		./lib/apprise/plugins/email \
+		./lib/apprise/plugins/gntp \
+		./lib/apprise/plugins/growl.py ${TMP} \
 	&& rm -rf ./lib/apprise/plugins/* \
 	&& cp -rp ${TMP}* ./lib/apprise/plugins/ \
 	&& unset TMP \
@@ -59,11 +60,12 @@ RUN \
 	&& python3 -V \
 	&& pip3 -V \
 	&& export PIP_ROOT_USER_ACTION=ignore \
+	&& export PIP_BREAK_SYSTEM_PACKAGES=1 \
 	&& pip3 install --no-cache-dir --quiet CT3 \
 	&& pip3 install --no-cache-dir --quiet Levenshtein \
 	&& pip3 install --no-cache-dir --quiet regex \
 	&& pip3 uninstall -q -y contextlib2 pycparser pyparsing retrying wheel \
-	&& unset PIP_ROOT_USER_ACTION \
+	&& unset PIP_ROOT_USER_ACTION PIP_BREAK_SYSTEM_PACKAGES \
 	&& find / -iname "*.pyi" -exec rm -f '{}' \; \
 	&& PYV=$(python3 -c 'import sys; print(".".join([str(x) for x in sys.version_info[0:2]]))') \
 	&& rm -rf /usr/lib/python$PYV/site-packages/Cheetah/Tests /usr/lib/python$PYV/ensurepip \

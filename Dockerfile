@@ -77,8 +77,10 @@ RUN \
 \
 	&& echo "*** Build Unrar ***" \
 	&& mkdir -p /tmp/unrar \
-	&& curl -sL "https://raw.githubusercontent.com/wiki/SickGear/SickGear/packages/www.rarlab.com/rar/unrarsrc-6.2.1.tar.gz" \
-		| tar xz -C /tmp/unrar --strip-components=1 \
+	&& curl -sL -o /tmp/unrarsrc.tar.gz "https://raw.githubusercontent.com/wiki/SickGear/SickGear/packages/www.rarlab.com/rar/unrarsrc-7.2.7.tar.gz" \
+	&& echo "01d903a7dcf413cb2925696d7796e48e38d471f79bfe7ef3ad2aebf6c12dbefd  /tmp/unrarsrc.tar.gz" \
+		| sha256sum -c - \
+	&& tar xzf /tmp/unrarsrc.tar.gz -C /tmp/unrar --strip-components=1 \
 	&& cd /tmp/unrar \
 	&& make LDFLAGS=-static -f makefile \
 	&& make install -f makefile \

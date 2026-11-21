@@ -54,6 +54,8 @@ RUN \
 	&& rm -rf ./lib/apprise/plugins/* \
 	&& cp -rp ${TMP}* ./lib/apprise/plugins/ \
 	&& unset TMP \
+	&& addgroup -S -g 1000 sickgear \
+	&& adduser -S -D -u 1000 -G sickgear -h ${SG} -s /sbin/nologin sickgear \
 	&& echo "-------------------------------------------" \
 \
 	&& echo "*** Install Python Packages ***" \

@@ -1,6 +1,4 @@
-# Edge has latest builds for py3-cryptography, py3-lxml, py3-wheel
-
-FROM alpine:edge
+FROM alpine:3.24
 # allow pip to install into Alpine system Python, at build and for in-app installs by SickGear piper
 ENV PIP_BREAK_SYSTEM_PACKAGES=1
 RUN \

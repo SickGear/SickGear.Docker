@@ -1,6 +1,26 @@
+# UnRAR is built in its own stage, the build cache then reuses it until the source or the base image changes
+FROM alpine:3.24 AS unrar
+RUN \
+	echo "*** Build Unrar ***" \
+	&& apk add --quiet --update --no-progress curl g++ make \
+	&& mkdir -p /tmp/unrar \
+	&& curl -sL -o /tmp/unrarsrc.tar.gz "https://raw.githubusercontent.com/wiki/SickGear/SickGear/packages/www.rarlab.com/rar/unrarsrc-7.2.7.tar.gz" \
+	&& echo "01d903a7dcf413cb2925696d7796e48e38d471f79bfe7ef3ad2aebf6c12dbefd  /tmp/unrarsrc.tar.gz" \
+		| sha256sum -c - \
+	&& tar xzf /tmp/unrarsrc.tar.gz -C /tmp/unrar --strip-components=1 \
+	&& cd /tmp/unrar \
+	&& make LDFLAGS=-static -f makefile \
+	&& make install -f makefile \
+	&& unrar \
+		| awk '/^UNRAR/ {print $0;exit}'
+
 FROM alpine:3.24
+COPY --from=unrar /usr/bin/unrar /usr/bin/unrar
+# a new value for each CI build, so the release tag and packages below are fetched again, not taken from the build cache
+ARG BUILD_ID=local
 RUN \
 	printf "-------------------------------------------\n-------------------------------------------\n" \
+	&& echo "*** Build ${BUILD_ID} ***" \
 	&& echo "*** Alpine v$(cat /etc/alpine-release) ***" \
 	&& echo "Repositories:" \
 	&& cat /etc/apk/repositories \
@@ -9,14 +29,14 @@ RUN \
 	&& echo "*** Install Packages ***" \
 	&& apk add --quiet --update --no-progress --virtual=build-deps1 curl \
 	&& apk add --quiet --update --no-progress --virtual=build-deps2 g++ \
-	&& apk add --quiet --update --no-progress --virtual=build-deps3 make \
-	&& apk add --quiet --update --no-progress --virtual=build-deps4 cmake \
 	&& apk add --quiet --update --no-progress --virtual=build-deps5 py3-pip \
 	&& apk add --quiet --update --no-progress --virtual=build-deps6 py3-wheel \
 	&& apk add --quiet --update --no-progress --virtual=build-deps7 python3-dev \
 	&& apk add --update --no-progress \
 		ca-certificates   libxml2   libxslt   su-exec   tzdata \
 		py3-brotli   py3-cffi   py3-cryptography   py3-lxml   py3-orjson   py3-rapidfuzz \
+	&& unrar \
+		| awk '/^UNRAR/ {print $0;exit}' \
 	&& echo "-------------------------------------------" \
 \
 	&& echo "*** Fetching latest release tag ***" \
@@ -68,22 +88,9 @@ RUN \
 	&& pip3 list \
 	&& echo "-------------------------------------------" \
 \
-	&& echo "*** Build Unrar ***" \
-	&& mkdir -p /tmp/unrar \
-	&& curl -sL -o /tmp/unrarsrc.tar.gz "https://raw.githubusercontent.com/wiki/SickGear/SickGear/packages/www.rarlab.com/rar/unrarsrc-7.2.7.tar.gz" \
-	&& echo "01d903a7dcf413cb2925696d7796e48e38d471f79bfe7ef3ad2aebf6c12dbefd  /tmp/unrarsrc.tar.gz" \
-		| sha256sum -c - \
-	&& tar xzf /tmp/unrarsrc.tar.gz -C /tmp/unrar --strip-components=1 \
-	&& cd /tmp/unrar \
-	&& make LDFLAGS=-static -f makefile \
-	&& make install -f makefile \
-	&& unrar \
-		| awk '/^UNRAR/ {print $0;exit}' \
-	&& echo "-------------------------------------------" \
-\
 	&& echo "*** Cleanup ***" \
 	&& apk del --quiet --purge --no-progress \
-		build-deps7 build-deps6 build-deps5 build-deps4 build-deps3 build-deps2 build-deps1 \
+		build-deps7 build-deps6 build-deps5 build-deps2 build-deps1 \
 	&& find / -type d -name "__pycache__" | xargs rm -rf \
 	&& rm -rf /tmp/* /root/.cache /var/cache/apk/* \
 	&& echo "-------------------------------------------"

@@ -133,7 +133,7 @@ Configure a SickGear container with the following environment variables and para
 <tr><th>Environment</th><th>Description for environment variable</th></tr>
 <tr><td>-e APP_UID=[<em>number</em>]</td><td>run SickGear as user id, default: 1000 (user sickgear)<br>ownership of <code>/data</code> is changed to this user on startup</td></tr>
 <tr><td>-e APP_GID=[<em>number</em>]</td><td>run SickGear as group id, default: 1000 (group sickgear)<br>useful for making files available for the <code>video</code> or <code>users</code> group</td></tr>
-<tr><td>-e TZ=[<em>string</em>]</td><td>manage shows in supplied timezone e.g. <code>Europe/Berlin</code><br>and used by SickGear's config/General/Interface/Timezone</td></tr>
+<tr><td>-e TZ=[<em>string</em>]</td><td>manage shows in supplied timezone e.g. <code>Europe/Berlin</code>, default: UTC<br>and used by SickGear's config/General/Interface/Timezone</td></tr>
 
 <tr><th width="200">Param [host]:[image]</th><th>Description for host(ext):image(int) value</th></tr>
 <tr><td>-p <em>8081</em>:<em>8081</em></td><td>access port for the SickGear application interface</td></tr>
@@ -243,6 +243,7 @@ The last two parameters declare container names to watch and update.
 <a id="versions" name="versions"></a>
 ## Versions
 
+* **2026-11-22:** - Rebuild latest automatically within a day of a new SickGear release.
 * **2026-11-22:** - Run SickGear as user sickgear (uid/gid 1000) by default, not root, see [Permissions](#permissions).
 * **2026-11-22:** - Rebase to Alpine 3.24 (pinned, was edge) with Python 3.14.
 * **2026-11-22:** - Add arm32v6 and riscv64 images, 8 platforms in total.

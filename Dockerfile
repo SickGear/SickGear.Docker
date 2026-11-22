@@ -18,6 +18,8 @@ FROM alpine:3.24
 COPY --from=unrar /usr/bin/unrar /usr/bin/unrar
 # a new value for each CI build, so the release tag and packages below are fetched again, not taken from the build cache
 ARG BUILD_ID=local
+# the SickGear release tag to install, CI passes it in, a local build finds the latest
+ARG SG_TAG=
 RUN \
 	printf "-------------------------------------------\n-------------------------------------------\n" \
 	&& echo "*** Build ${BUILD_ID} ***" \
@@ -41,8 +43,8 @@ RUN \
 \
 	&& echo "*** Fetching latest release tag ***" \
 # the releases/latest page redirects to the tag, unlike the API it has no rate limit for shared build hosts
-	&& TAG_NAME=$(curl -s -o /dev/null -w "%{redirect_url}" "https://github.com/SickGear/SickGear/releases/latest" \
-		| sed 's#.*/tag/##') \
+	&& TAG_NAME="${SG_TAG:-$(curl -s -o /dev/null -w "%{redirect_url}" "https://github.com/SickGear/SickGear/releases/latest" \
+		| sed 's#.*/tag/##')}" \
 	&& [ -n "${TAG_NAME}" ] \
 	&& echo "*** Install Gear tagged ${TAG_NAME} ***" \
 	&& export SG=/opt/SickGear \
@@ -94,6 +96,9 @@ RUN \
 	&& find / -type d -name "__pycache__" | xargs rm -rf \
 	&& rm -rf /tmp/* /root/.cache /var/cache/apk/* \
 	&& echo "-------------------------------------------"
+
+# the release in this image, CI compares it with the latest release to decide on a rebuild
+LABEL org.opencontainers.image.version="${SG_TAG}"
 
 COPY base/ /
 ENTRYPOINT ["/entrypoint.sh"]

@@ -18,10 +18,9 @@ RUN \
 	&& apk add --quiet --update --no-progress --virtual=build-deps2 g++ \
 	&& apk add --quiet --update --no-progress --virtual=build-deps3 make \
 	&& apk add --quiet --update --no-progress --virtual=build-deps5 py3-wheel \
-	&& apk add --quiet --update --no-progress --virtual=build-deps6 cargo \
 	&& apk add --update --no-progress \
-		ca-certificates   git   libxml2   libxslt   su-exec   tzdata \
-		py3-cffi   py3-cryptography   py3-lxml   py3-pip \
+		ca-certificates   git   su-exec   tzdata \
+		py3-brotli   py3-pip \
 #	&& python3 -m pip install --upgrade pip wheel \
 	&& echo "-------------------------------------------" \
 \
@@ -39,10 +38,11 @@ RUN \
 	&& pip3 -V \
 	&& export PIP_ROOT_USER_ACTION=ignore \
 	&& cd ${SG} \
-	&& pip3 install --no-cache-dir -r requirements.txt \
-	&& pip3 install --no-cache-dir -r recommended.txt \
+	&& pip3 install --no-cache-dir -U -r requirements.txt \
+	&& pip3 install --no-cache-dir -U -r recommended.txt \
 	&& pip3 uninstall -q -y pycparser pyparsing retrying wheel \
 	&& unset PIP_ROOT_USER_ACTION \
+	&& rm -rf /usr/lib/python3*/ensurepip \
 	&& echo \
 	&& pip3 list \
 	&& echo "-------------------------------------------" \
@@ -62,7 +62,7 @@ RUN \
 \
 	&& echo "*** Cleanup ***" \
 	&& apk del --quiet --purge --no-progress \
-		build-deps6 build-deps5 build-deps3 build-deps2 build-deps1 \
+		build-deps5 build-deps3 build-deps2 build-deps1 \
 	&& find / -type d -name "__pycache__" | xargs rm -rf \
 	&& rm -rf /tmp/* /root/.cache /var/cache/apk/* \
 	&& echo "-------------------------------------------"

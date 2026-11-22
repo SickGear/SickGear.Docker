@@ -1,4 +1,4 @@
-FROM alpine:edge
+FROM alpine:3.24
 RUN \
 	printf "-------------------------------------------\n-------------------------------------------\n" \
 	&& echo "*** Alpine v$(cat /etc/alpine-release) ***" \

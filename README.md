@@ -158,6 +158,17 @@ In the above examples, APP_UID was set 1000, and APP_GID set 44, these values we
 $ id username
 uid=1000(username) gid=1000(username) groups=1000(username),4(adm),24(cdrom) ... etc.
 ```
+
+#### Upgrading from an image that ran as root
+
+Images before this one ran SickGear as root (uid 0) by default. SickGear now runs as user `sickgear` (uid 1000, gid 1000) unless `APP_UID`/`APP_GID` (or `PUID`/`PGID`) are set.
+
+On first start, the ownership of `/data` changes to the new user. The `/incoming` and `/tv` volumes are not changed, so check that uid 1000 (or your `APP_UID`) can read and write them, for example on the host:
+```
+$ sudo chown -R 1000:1000 /storage/incoming /storage/tv
+```
+
+To keep the old behaviour, set `-e APP_UID=0 -e APP_GID=0`. Running as root is not recommended.
   
 ---
   

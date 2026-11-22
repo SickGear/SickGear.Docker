@@ -20,12 +20,14 @@ RUN \
 	&& echo "-------------------------------------------" \
 \
 	&& echo "*** Fetching latest release tag ***" \
-	&& TAG_NAME=$(curl -sL "https://api.github.com/repos/sickgear/sickgear/releases/latest" \
-		| awk '/tag_name/{print $4;exit}' FS='[""]') \
+# the releases/latest page redirects to the tag, unlike the API it has no rate limit for shared build hosts
+	&& TAG_NAME=$(curl -s -o /dev/null -w "%{redirect_url}" "https://github.com/SickGear/SickGear/releases/latest" \
+		| sed 's#.*/tag/##') \
+	&& [ -n "${TAG_NAME}" ] \
 	&& echo "*** Install Gear tagged ${TAG_NAME} ***" \
 	&& export SG=/opt/SickGear \
 	&& mkdir -p ${SG} \
-	&& curl -sL "https://github.com/SickGear/SickGear/archive/${TAG_NAME}.tar.gz" \
+	&& curl -sfL "https://github.com/SickGear/SickGear/archive/${TAG_NAME}.tar.gz" \
 		| tar xz -C ${SG} --strip-components=1 \
 	&& cd ${SG} \
 	&& rm -rf \

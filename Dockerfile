@@ -16,7 +16,7 @@ RUN \
 	&& apk add --quiet --update --no-progress --virtual=build-deps7 python3-dev \
 	&& apk add --update --no-progress \
 		ca-certificates   libxml2   libxslt   su-exec   tzdata \
-		py3-cffi   py3-cryptography   py3-lxml \
+		py3-brotli   py3-cffi   py3-cryptography   py3-lxml   py3-orjson   py3-rapidfuzz \
 	&& echo "-------------------------------------------" \
 \
 	&& echo "*** Fetching latest release tag ***" \
@@ -30,19 +30,20 @@ RUN \
 	&& cd ${SG} \
 	&& rm -rf \
 		./.github ./init-scripts ./snap ./tests ./.codeclimate.yml \
-		./.gitignore ./_cleaner.py ./CHANGES.md ./HACKS.txt \
-		./recommended.txt ./recommended-remove.txt  ./readme.md \
-		./requirements.txt ./SickBeard.py ./.travis.yml ./tox.ini \
-		./lib/bs4_py2 ./lib/diskcache_py2 ./lib/feedparser_py2 \
-		./lib/hachoir_py2 ./lib/js2py ./lib/pyjsparser \
-		./lib/pytz/tests ./lib/rarfile_py2 ./lib/rarfile/UnRAR.exe \
-		./lib/soupsieve_py2 ./lib/tornado_py2 \
-	&& export TMP=/tmp/sgtemp/ \
-	&& mkdir -p ${TMP} \
-	&& find ./lib/pytz/zoneinfo/ -maxdepth 1 -type f -exec cp -p '{}' ${TMP} \; \
-	&& cp -rp ./lib/pytz/zoneinfo/Etc ${TMP} \
-	&& rm -rf ./lib/pytz/zoneinfo/* \
-	&& cp -rp ${TMP}* ./lib/pytz/zoneinfo/ \
+		./.gitignore ./.gitlab-ci.yml ./_cleaner.py ./CHANGES.md \
+		./CODE_OF_CONDUCT.md ./CONTRIBUTING.md ./HACKS.txt \
+		./recommended.txt ./recommended-remove.txt ./readme.md \
+		./requirements.txt ./SickBeard.py ./tox.ini \
+		./lib/fuzzywuzzy ./lib/js2py ./lib/pyjsparser ./lib/rarfile/UnRAR.exe \
+# releases after 3.36 have no lib/pytz, timezones then come from the tzdata package
+	&& if [ -d ./lib/pytz/zoneinfo ]; then \
+		export TMP=/tmp/sgtemp/ \
+		&& mkdir -p ${TMP} \
+		&& find ./lib/pytz/zoneinfo/ -maxdepth 1 -type f -exec cp -p '{}' ${TMP} \; \
+		&& cp -rp ./lib/pytz/zoneinfo/Etc ${TMP} \
+		&& rm -rf ./lib/pytz/zoneinfo/* \
+		&& cp -rp ${TMP}* ./lib/pytz/zoneinfo/ ; \
+	fi \
 	&& export TMP=/tmp/apprise/ \
 	&& mkdir -p ${TMP} \
 	&& cp -rp \
@@ -64,9 +65,8 @@ RUN \
 	&& export PIP_ROOT_USER_ACTION=ignore \
 	&& export PIP_BREAK_SYSTEM_PACKAGES=1 \
 	&& pip3 install --no-cache-dir --quiet CT3 \
-	&& pip3 install --no-cache-dir --quiet Levenshtein \
 	&& pip3 install --no-cache-dir --quiet regex \
-	&& pip3 uninstall -q -y contextlib2 pycparser pyparsing retrying wheel \
+	&& pip3 uninstall -q -y pycparser pyparsing wheel \
 	&& unset PIP_ROOT_USER_ACTION PIP_BREAK_SYSTEM_PACKAGES \
 	&& find / -iname "*.pyi" -exec rm -f '{}' \; \
 	&& PYV=$(python3 -c 'import sys; print(".".join([str(x) for x in sys.version_info[0:2]]))') \

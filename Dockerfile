@@ -35,15 +35,6 @@ RUN \
 		./recommended.txt ./recommended-remove.txt ./readme.md \
 		./requirements.txt ./SickBeard.py ./tox.ini \
 		./lib/fuzzywuzzy ./lib/js2py ./lib/pyjsparser ./lib/rarfile/UnRAR.exe \
-# releases after 3.36 have no lib/pytz, timezones then come from the tzdata package
-	&& if [ -d ./lib/pytz/zoneinfo ]; then \
-		export TMP=/tmp/sgtemp/ \
-		&& mkdir -p ${TMP} \
-		&& find ./lib/pytz/zoneinfo/ -maxdepth 1 -type f -exec cp -p '{}' ${TMP} \; \
-		&& cp -rp ./lib/pytz/zoneinfo/Etc ${TMP} \
-		&& rm -rf ./lib/pytz/zoneinfo/* \
-		&& cp -rp ${TMP}* ./lib/pytz/zoneinfo/ ; \
-	fi \
 	&& export TMP=/tmp/apprise/ \
 	&& mkdir -p ${TMP} \
 	&& cp -rp \

@@ -240,6 +240,26 @@ The last two parameters declare container names to watch and update.
   
 ---
   
+<a id="versions" name="versions"></a>
+## Versions
+
+* **2026-11-22:** - Run SickGear as user sickgear (uid/gid 1000) by default, not root, see [Permissions](#permissions).
+* **2026-11-22:** - Rebase to Alpine 3.24 (pinned, was edge) with Python 3.14.
+* **2026-11-22:** - Add arm32v6 and riscv64 images, 8 platforms in total.
+* **2026-11-22:** - Bump UnRAR 6.2.1 to 7.23, built from source with a checksum check.
+* **2026-11-22:** - Fix a `TZ` city setting such as Europe/London falling back to UTC (latest).
+* **2026-11-22:** - Packages now match SickGear recommended.txt: add brotli, orjson, rapidfuzz, drop python-Levenshtein.
+* **2026-11-22:** - develop: install the latest Python packages at build, so the first start has no package updates, and in-app package installs work.
+* **2023-06-07:** - Last build on Alpine 3.18 with Python 3.11.
+* **2021-11-25:** - Rebase to Alpine latest.
+* **2021-09-18:** - Switch to Python 3.9.
+* **2020-01-15:** - Switch to Python 3.8.
+* **2019-11-20:** - Add unrar.
+* **2018-06-22:** - Move to the official sickgear namespace.
+* **2017-12-17:** - Switch base to Alpine, replace gosu with su-exec.
+
+---
+
 ## Historical
 
 SickGear was sited under namespace ressu/ and then deed02392/ (thanks guys). The backend was fixed Jun 22, 2018 and the image has since been hosted at the official sickgear namespace.  Special thanks to resno for his initial help.

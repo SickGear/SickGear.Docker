@@ -14,7 +14,7 @@
   <tr><td>easy user and group mappings</td><td>quick migration support</td></tr>
   <tr><td>super small base image</td><td>regular security updates</td></tr>
   <tr><th colspan="2">Multiple architecture image support</th></tr>
-  <tr><td colspan="2" align="center">amd64(x86) -- arm64 -- arm32v7(armhf) -- ppc64le -- 386 -- s390x</td></tr>
+  <tr><td colspan="2" align="center">amd64(x86) -- arm64 -- arm32v7 -- arm32v6(armhf) -- 386 -- ppc64le -- s390x -- riscv64</td></tr>
 </table>
   
 ---

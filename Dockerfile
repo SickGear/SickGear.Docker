@@ -81,6 +81,9 @@ RUN \
 	&& export PIP_BREAK_SYSTEM_PACKAGES=1 \
 	&& pip3 install --no-cache-dir --quiet CT3 \
 	&& pip3 install --no-cache-dir --quiet regex \
+# rtls lets niquests use Encrypted Client Hello, no wheel for arm/v6, ppc64le, s390x, so those skip it
+	&& { pip3 install --no-cache-dir --quiet --only-binary=rtls rtls \
+		|| echo "*** No rtls wheel for $(uname -m), skipped ***"; } \
 	&& pip3 uninstall -q -y pycparser pyparsing wheel \
 	&& unset PIP_ROOT_USER_ACTION PIP_BREAK_SYSTEM_PACKAGES \
 	&& find / -iname "*.pyi" -exec rm -f '{}' \; \

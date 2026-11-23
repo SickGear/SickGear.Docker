@@ -59,6 +59,9 @@ RUN \
 	&& cd ${SG} \
 	&& pip3 install --no-cache-dir -U -r requirements.txt \
 	&& pip3 install --no-cache-dir -U -r recommended.txt \
+# rtls lets niquests use Encrypted Client Hello, no wheel for arm/v6, ppc64le, s390x, so those skip it
+	&& { pip3 install --no-cache-dir --quiet --only-binary=rtls rtls \
+		|| echo "*** No rtls wheel for $(uname -m), skipped ***"; } \
 	&& pip3 uninstall -q -y pycparser pyparsing retrying wheel \
 	&& unset PIP_ROOT_USER_ACTION \
 	&& rm -rf /usr/lib/python3*/ensurepip \

@@ -20,6 +20,8 @@ COPY --from=unrar /usr/bin/unrar /usr/bin/unrar
 ARG BUILD_ID=local
 # the SickGear release tag to install, CI passes it in, a local build finds the latest
 ARG SG_TAG=
+# set by buildx, v6 for linux/arm/v6
+ARG TARGETVARIANT
 RUN \
 	printf "-------------------------------------------\n-------------------------------------------\n" \
 	&& echo "*** Build ${BUILD_ID} ***" \
@@ -81,8 +83,10 @@ RUN \
 	&& export PIP_BREAK_SYSTEM_PACKAGES=1 \
 	&& pip3 install --no-cache-dir --quiet CT3 \
 	&& pip3 install --no-cache-dir --quiet regex \
-# rtls lets niquests use Encrypted Client Hello, no wheel for arm/v6, ppc64le, s390x, so those skip it
-	&& { pip3 install --no-cache-dir --quiet --only-binary=rtls rtls \
+# rtls lets niquests use Encrypted Client Hello, no wheel for arm/v6, ppc64le, s390x, so those skip it;
+# arm/v6 builds under an emulated armv7 CPU, where pip would take the armv7 wheel that a real ARMv6 cannot run
+	&& { [ "${TARGETVARIANT}" = "v6" ] && echo "*** No rtls wheel for arm/v6, skipped ***" \
+		|| pip3 install --no-cache-dir --quiet --only-binary=rtls rtls \
 		|| echo "*** No rtls wheel for $(uname -m), skipped ***"; } \
 	&& pip3 uninstall -q -y pycparser pyparsing wheel \
 	&& unset PIP_ROOT_USER_ACTION PIP_BREAK_SYSTEM_PACKAGES \

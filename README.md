@@ -245,6 +245,7 @@ The last two parameters declare container names to watch and update.
 <a id="versions" name="versions"></a>
 ## Versions
 
+* **2026-11-27:** - Add rtls, so ECH works on platforms with a wheel: amd64, arm64, arm/v7, 386, riscv64.
 * **2026-11-22:** - Rebuild latest automatically within a day of a new SickGear release.
 * **2026-11-22:** - Run SickGear as user sickgear (uid/gid 1000) by default, not root, see [Permissions](#permissions).
 * **2026-11-22:** - Rebase to Alpine 3.24 (pinned, was edge) with Python 3.14.
